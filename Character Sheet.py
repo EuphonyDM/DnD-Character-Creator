@@ -29,9 +29,9 @@ class CharacterSheet:
         i = 0
         for race in races:
             asi = ''
-            print(race)
-            for score in race.asi:
-                asi += '{} +{}, '.format(score[0], score[1])
+            if race.asi is not None:
+                for score in race.asi:
+                    asi += '{} +{}, '.format(score[0], score[1])
             asi = asi[:-2]
             print('{}. {}: {}'.format(i, race.name, asi))
             i += 1
@@ -41,7 +41,6 @@ class CharacterSheet:
 
 
 
-races = ['Dwarf', 'Elf', 'Human', 'Tiefling', 'Halfling', 'Dragonborn', 'Gnome', 'Half-Elf', 'Half-Orc']
 classes = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk',
            'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard']
 attributeNames = ['Str','Dex','Con','Int','Wis','Cha']
