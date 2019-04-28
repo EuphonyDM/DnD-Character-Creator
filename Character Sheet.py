@@ -1,12 +1,17 @@
+import pickle
+import dndraces
+
+file_name = 'races.p'
+races = None
+with open(file_name, 'rb') as out_file:
+   races = pickle.load(out_file)
+
 class CharacterSheet:
     def __init__(self, level):
         self.level = level
 
     def create(self):
-        print('Pick a race:')
-        numberedOutput(races)
-        userInput = int(input())
-        self.race = races[userInput]
+        self.pickRaces()
         print('Pick a class:')
         numberedOutput(classes)
         userInput = int(input())
@@ -19,6 +24,21 @@ class CharacterSheet:
             print("Enter the score for ", name)
             attributes.append(int(input()))
         return attributes
+
+    def pickRaces(self):
+        i = 0
+        for race in races:
+            asi = ''
+            print(race)
+            for score in race.asi:
+                asi += '{} +{}, '.format(score[0], score[1])
+            asi = asi[:-2]
+            print('{}. {}: {}'.format(i, race.name, asi))
+            i += 1
+        userInput = int(input('Please enter the number of your race'))
+        self.race=races[userInput].name
+
+
 
 
 races = ['Dwarf', 'Elf', 'Human', 'Tiefling', 'Halfling', 'Dragonborn', 'Gnome', 'Half-Elf', 'Half-Orc']
