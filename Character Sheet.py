@@ -28,10 +28,10 @@ class CharacterSheet:
         self.subrace=None
 
     def create(self):
-        self.pickRaces()
-        self.pickClasses()
         self.setAttributes()
         self.showAttributes()
+        self.pickRaces()
+        self.pickClasses()
 
     def randomStats(self):
         a = random.randint(1, 6)
@@ -55,6 +55,7 @@ class CharacterSheet:
         elif('random' in userInput):
             for _ in range(6):
                 attributes.append(self.randomStats())
+            #print(attributes)
             attributes=swUtil.insertionSort(attributes)
             print(attributes)
         for score in attributes:
@@ -73,37 +74,7 @@ class CharacterSheet:
                 self.wis = score
             elif (userInput.lower() == 'cha'):
                 self.cha = score
-        asi=self.race.asi
-        if self.subrace is not None:
-            asi += self.subrace.asi
-            print('working')
-        for score in asi:
-            if score[0] == 'str':
-                self.str+=score[1]
-            elif score[0] == 'dex':
-                self.dex+=score[1]
-            elif score[0] == 'con':
-                self.con+=score[1]
-            elif score[0] == 'int':
-                self.int+=score[1]
-            elif score[0] == 'wis':
-                self.wis+=score[1]
-            elif score[0] == 'cha':
-                self.cha+=score[1]
-            elif score[0] == 'any':
-                userInput=input('Which attribute will you give the bonus to? ')
-                if (userInput.lower() == 'str'):
-                    self.str += score[1]
-                elif (userInput.lower() == 'dex'):
-                    self.dex += score[1]
-                elif (userInput.lower() == 'con'):
-                    self.con += score[1]
-                elif (userInput.lower() == 'int'):
-                    self.int+= score[1]
-                elif (userInput.lower() == 'wis'):
-                    self.wis += score[1]
-                elif (userInput.lower() == 'cha'):
-                    self.cha += score[1]
+
 
     def showAttributes(self):
         print('Strength: ', self.str)
@@ -137,14 +108,85 @@ class CharacterSheet:
                 i += 1
             userInput = int(input('Please enter the number of your subrace'))
             self.subrace = self.race.subraces[userInput]
+        asi = self.race.asi
+        if self.subrace is not None:
+            asi += self.subrace.asi
+            print('working')
+        for score in asi:
+            if score[0] == 'str':
+                self.str += score[1]
+            elif score[0] == 'dex':
+                self.dex += score[1]
+            elif score[0] == 'con':
+                self.con += score[1]
+            elif score[0] == 'int':
+                self.int += score[1]
+            elif score[0] == 'wis':
+                self.wis += score[1]
+            elif score[0] == 'cha':
+                self.cha += score[1]
+            elif score[0] == 'any':
+                userInput = input('Which attribute will you give the bonus to? ')
+                if (userInput.lower() == 'str'):
+                    self.str += score[1]
+                elif (userInput.lower() == 'dex'):
+                    self.dex += score[1]
+                elif (userInput.lower() == 'con'):
+                    self.con += score[1]
+                elif (userInput.lower() == 'int'):
+                    self.int += score[1]
+                elif (userInput.lower() == 'wis'):
+                    self.wis += score[1]
+                elif (userInput.lower() == 'cha'):
+                    self.cha += score[1]
 
     def pickClasses(self):
+        self.suggestedClasses()
         i=0
         for dndclass in classes:
             print(i, '. ', dndclass.name)
             i+=1
         userInput=input('Pick a class')
         self.charClass=[classes[int(userInput)]]
+
+    def suggestedClasses(self):
+        max=0
+        highestStats=[]
+        suggestedClasses=[]
+        if self.str > max:
+            max=self.str
+            highestStats=['str']
+        elif self.str == max:
+            highestStats.append('str')
+        if self.dex > max:
+            max = self.dex
+            highestStats = ['dex']
+        elif self.dex == max:
+            highestStats.append('dex')
+        if self.con > max:
+            max = self.con
+            highestStats = ['con']
+        elif self.con == max:
+            highestStats.append('con')
+        if self.int > max:
+            max = self.int
+            highestStats = ['int']
+        elif self.int == max:
+            highestStats.append('int')
+        if self.wis > max:
+            max = self.wis
+            highestStats = ['wis']
+        elif self.wis == max:
+            highestStats.append('wis')
+        if self.cha > max:
+            max = self.cha
+            highestStats = ['cha']
+        elif self.cha == max:
+            highestStats.append('cha')
+        for someClass in classes:
+            if someClass.primaryStat.lower() in highestStats:
+                suggestedClasses.append(someClass)
+                print(someClass.name)
 
 
 attributeNames = ['Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha']
