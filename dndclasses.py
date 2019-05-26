@@ -11,7 +11,11 @@ class dndClass:
     def levelUp(self):
         self.level+=1
 
-
+classes=[]
+barbarian=dndClass('Bardbarian', 'Con', 'Str')
+classes.append(barbarian)
 bard=dndClass('Bard', 'Cha', 'Dex')
-classes=[bard]
+classes += [bard]
+cleric = dndClass('Clerk', 'Wis', 'Str')
+classes += [cleric]
 pickle.dump(classes, open("classes.p", "wb"))
