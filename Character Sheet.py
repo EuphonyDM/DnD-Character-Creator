@@ -1,11 +1,20 @@
 import pickle
 import dndraces
+import dndclasses
 import random
+import swUtil
 
 file_name = 'races.p'
 races = None
 with open(file_name, 'rb') as out_file:
    races = pickle.load(out_file)
+
+
+file_name = 'classes.p'
+classes = None
+with open(file_name, 'rb') as out_file:
+   classes = pickle.load(out_file)
+
 
 class CharacterSheet:
     def __init__(self, level):
@@ -20,10 +29,7 @@ class CharacterSheet:
 
     def create(self):
         self.pickRaces()
-        print('Pick a class:')
-        numberedOutput(classes)
-        userInput = int(input())
-        self.charClass = classes[userInput]
+        self.pickClasses()
         self.setAttributes()
         self.showAttributes()
 
@@ -38,10 +44,19 @@ class CharacterSheet:
             b, c = c, b
         if c<d:
             c, d = d, c
-        print(a,b,c,d)
+        return a+b+c
 
     def setAttributes(self):
-        attributes=[15, 14, 13, 12, 10, 8]
+        attributes = []
+        userInput = input('Standard array or random? ')
+        userInput = userInput.lower()
+        if('standard'in userInput):
+            attributes=[15, 14, 13, 12, 10, 8]
+        elif('random' in userInput):
+            for _ in range(6):
+                attributes.append(self.randomStats())
+            attributes=swUtil.insertionSort(attributes)
+            print(attributes)
         for score in attributes:
             self.showAttributes()
             print("Enter the attribute for ", score)
@@ -123,19 +138,26 @@ class CharacterSheet:
             userInput = int(input('Please enter the number of your subrace'))
             self.subrace = self.race.subraces[userInput]
 
+    def pickClasses(self):
+        i=0
+        for dndclass in classes:
+            print(i, '. ', dndclass.name)
+            i+=1
+        userInput=input('Pick a class')
+        self.charClass=[classes[int(userInput)]]
 
-classes = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk',
-           'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard']
+
 attributeNames = ['Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha']
 
 
 def numberedOutput(array):
     for i in range(len(array)):
-        print(i,' ',array[i])
+        print(i, ' ', array[i])
 
 
 pc = CharacterSheet(1)
 pc.randomStats()
 pc.create()
 print(pc.race.name)
-print(pc.charClass)
+for dndclass in pc.charClass:
+    print(dndclass.name)
