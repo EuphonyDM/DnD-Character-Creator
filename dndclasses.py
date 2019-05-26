@@ -11,6 +11,7 @@ class dndClass:
     def levelUp(self):
         self.level+=1
 
+
 barbarian=dndClass('Barbarian', 'Str', 'Con')
 classes=[barbarian]
 bard=dndClass('Bard', 'Cha', 'Dex')
